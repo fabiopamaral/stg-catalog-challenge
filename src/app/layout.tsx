@@ -11,21 +11,28 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className="bg-gray-50 text-gray-900">
-        <header className="p-4 shadow-md flex justify-between">
-          <div>Minha Loja</div>
-          <nav>
-            <Link href="/login" className="text-blue-600 hover:underline">
-              Entrar
+      <body className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 text-gray-900 font-sans">
+        <div className="flex flex-col min-h-screen bg-emerald-950">
+          <header className="shadow-md px-6 py-4 flex justify-between items-center">
+            <Link href="/" className="text-xl font-bold text-white">
+              STG e-commerce
             </Link>
-          </nav>
-        </header>
+            <nav className="space-x-4">
+              <Link href="/login" className="hover:underline text-white">
+                Entrar
+              </Link>
+              <Link href="/cart" className="hover:underline text-white">
+                Carrinho
+              </Link>
+            </nav>
+          </header>
 
-        <main className="p-4">{children}</main>
+          <main className="flex-grow p-0">{children}</main>
 
-        <footer className="p-4 text-center text-sm text-gray-500">
-          © 2025 Minha Loja
-        </footer>
+          <footer className="bg-emerald-900 opacity-20 text-center text-sm text-gray-200 py-4 shadow-inner">
+            © STG e-commerce
+          </footer>
+        </div>
       </body>
     </html>
   );
