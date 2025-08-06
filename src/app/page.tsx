@@ -49,7 +49,7 @@ export default function Home() {
                 <img
                   src={product.image_url}
                   alt={product.name}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-cover p-3"
                 />
               ) : (
                 <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">
@@ -64,9 +64,21 @@ export default function Home() {
                 <p className="text-sm text-gray-500 line-clamp-2">
                   {product.description || "Sem descrição"}
                 </p>
-                <p className="text-blue-600 font-bold text-lg">
-                  R$ {product.price.toFixed(2)}
+                <p className="text-neutral-900 font-bold text-lg">
+                  R${" "}
+                  {product.price.toLocaleString("pt-BR", {
+                    currency: "BRL",
+                    maximumFractionDigits: 2,
+                  })}
                 </p>
+                <span className="text-gray-500 text-xs">
+                  Ou em até 12x de R${" "}
+                  {(product.price / 12).toLocaleString("pt-BR", {
+                    currency: "BRL",
+                    maximumFractionDigits: 2,
+                  })}{" "}
+                  sem juros
+                </span>
               </div>
             </div>
           ))}
