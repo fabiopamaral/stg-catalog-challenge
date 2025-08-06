@@ -1,7 +1,8 @@
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
 import Link from "next/link";
 import "./globals.css";
 import { ReactNode } from "react";
-import { LogIn, ShoppingCart, UserRoundPlus } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 export const metadata = {
