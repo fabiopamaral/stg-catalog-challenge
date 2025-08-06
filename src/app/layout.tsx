@@ -2,6 +2,7 @@ import Link from "next/link";
 import "./globals.css";
 import { ReactNode } from "react";
 import { LogIn, ShoppingCart, UserRoundPlus } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 export const metadata = {
   title: "E-commerce",
@@ -17,30 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Link href="/" className="text-xl font-bold text-white">
               <img src="/logo-stg.png" alt="Logo" width={50} height={50} />
             </Link>
-            <nav className="space-x-4 flex">
-              <Link
-                href="/register"
-                className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200"
-              >
-                <span>Crie sua Conta</span>
-                <UserRoundPlus width={20} height={20} />
-              </Link>
-              <Link
-                href="/login"
-                className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200"
-              >
-                <span>Entrar</span>
-                <LogIn width={20} height={20} />
-              </Link>
-
-              <Link
-                href="/cart"
-                className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200"
-              >
-                <span>Carrinho</span>
-                <ShoppingCart width={20} height={20} />
-              </Link>
-            </nav>
+            <Navbar />
           </header>
 
           <main className="flex-grow p-0">{children}</main>
