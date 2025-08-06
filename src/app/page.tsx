@@ -2,15 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  image_url?: string;
-  category?: string;
-}
+import BuyButton from "@/components/BuyButton";
+import { Product } from "@/types/supabase";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -39,11 +32,11 @@ export default function Home() {
       ) : products.length === 0 ? (
         <p className="text-center text-gray-500">Nenhum produto disponível.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
           {products.map((product) => (
             <div
               key={product.id}
-              className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition"
+              className="bg-blue-50 shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-transform duration-200 transform hover:scale-102"
             >
               {product.image_url ? (
                 <img
@@ -79,6 +72,9 @@ export default function Home() {
                   })}{" "}
                   sem juros
                 </span>
+              </div>
+              <div className="pt-2">
+                <BuyButton product={product} />
               </div>
             </div>
           ))}

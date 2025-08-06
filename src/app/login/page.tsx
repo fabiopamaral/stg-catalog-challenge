@@ -51,10 +51,8 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center  p-4 bg-emerald-950">
-      <div className="bg-white shadow-lg rounded-2xl w-full max-w-md p-8 space-y-6">
-        <h1 className="text-2xl font-bold text-center text-blue-700">
-          Entrar na loja
-        </h1>
+      <div className="bg-blue-50 shadow-lg rounded-2xl w-full max-w-md p-8 space-y-6">
+        <h1 className="text-2xl font-bold text-center text-gray-800">Login</h1>
 
         {error && (
           <div className="bg-red-100 text-red-700 px-4 py-2 rounded-md text-sm">
@@ -71,7 +69,7 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-300"
               placeholder="seu@email.com"
               required
             />
@@ -85,7 +83,7 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-300"
               placeholder="••••••••"
               required
             />
@@ -95,7 +93,7 @@ export default function LoginPage() {
             <button
               onClick={handleLogin}
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 hover:cursor-pointer"
             >
               {loading ? "Entrando..." : "Entrar"}
             </button>
@@ -103,7 +101,7 @@ export default function LoginPage() {
             <button
               onClick={handleRegister}
               disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 hover:cursor-pointer"
             >
               {loading ? "Registrando..." : "Registrar"}
             </button>
