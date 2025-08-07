@@ -1,35 +1,33 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-
+import { supabase } from "@/lib/supabase";
 import { Toast } from "primereact/toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [error, setError] = useState("");
 
-  const router = useRouter();
   const toast = useRef<Toast>(null);
+  const router = useRouter();
+
+  async function signInUser(email: string, password: string) {
+    return await supabase.auth.signInWithPassword({ email, password });
+  }
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setIsLoggingIn(true);
-    setError("");
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { error } = await signInUser(email, password);
 
     if (error) {
       toast.current?.show({
         severity: "error",
         summary: "Erro",
-        detail: "Credenciais inválidas",
+        detail: error.message || "Erro ao fazer login",
         life: 3000,
       });
     } else {
@@ -37,7 +35,7 @@ export default function LoginPage() {
         severity: "success",
         summary: "Sucesso",
         detail: "Login realizado com sucesso!",
-        life: 3000,
+        life: 2000,
         className: "p-3 gap-2",
       });
 
@@ -49,7 +47,7 @@ export default function LoginPage() {
     setIsLoggingIn(false);
   }
 
-  function goRegister() {
+  function handleGoToRegister() {
     router.push("/register");
   }
 
@@ -62,13 +60,7 @@ export default function LoginPage() {
             Login
           </h1>
 
-          {error && (
-            <div className="bg-red-100 text-red-700 px-4 py-2 rounded-md text-sm">
-              {error}
-            </div>
-          )}
-
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 E-mail
@@ -100,16 +92,16 @@ export default function LoginPage() {
             <div className="flex items-center justify-between gap-4">
               <button
                 type="submit"
-                onClick={handleLogin}
                 disabled={isLoggingIn}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 hover:cursor-pointer"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
               >
                 {isLoggingIn ? "Entrando..." : "Entrar"}
               </button>
 
               <button
-                onClick={goRegister}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 hover:cursor-pointer"
+                type="button"
+                onClick={handleGoToRegister}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
               >
                 Criar Conta
               </button>
