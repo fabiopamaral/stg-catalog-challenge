@@ -47,7 +47,6 @@ export default function Navbar() {
             <Link
               href="/cart"
               className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200"
-              onClick={handleLogout}
             >
               <span>Carrinho</span>
               <ShoppingCart width={20} height={20} />
