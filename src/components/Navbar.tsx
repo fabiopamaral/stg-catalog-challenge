@@ -35,6 +35,14 @@ export default function Navbar() {
     router.push("/");
   };
 
+  const handleCartClick = () => {
+    if (session) {
+      router.push("/cart");
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <nav className="space-x-4 flex">
       <div className="flex items-center gap-4">
@@ -43,13 +51,15 @@ export default function Navbar() {
             <span className="text-sm text-white">
               Bem-vindo, {session.user.email}
             </span>
-            <Link
-              href="/cart"
-              className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200"
+
+            <button
+              onClick={handleCartClick}
+              className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200 cursor-pointer"
             >
               <span>Carrinho</span>
               <ShoppingCart width={20} height={20} />
-            </Link>
+            </button>
+
             <button
               onClick={handleLogout}
               className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200 cursor-pointer"
@@ -67,6 +77,7 @@ export default function Navbar() {
               <span>Crie sua Conta</span>
               <UserRoundPlus width={20} height={20} />
             </Link>
+
             <Link
               href="/login"
               className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200"
@@ -75,13 +86,13 @@ export default function Navbar() {
               <LogIn width={20} height={20} />
             </Link>
 
-            <Link
-              href="/cart"
-              className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200"
+            <button
+              onClick={handleCartClick}
+              className="text-white flex justify-center items-center gap-2 hover:text-slate-300 transition duration-200 cursor-pointer"
             >
               <span>Carrinho</span>
               <ShoppingCart width={20} height={20} />
-            </Link>
+            </button>
           </>
         )}
       </div>
