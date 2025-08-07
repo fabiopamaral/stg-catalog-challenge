@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchProducts() {
       const { data, error } = await supabase
-        .from("product")
+        .from("products")
         .select("*")
         .order("created_at", { ascending: false });
 

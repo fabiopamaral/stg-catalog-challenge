@@ -16,7 +16,7 @@ export default function ProductPage() {
   useEffect(() => {
     async function fetchProduct() {
       const { data, error } = await supabase
-        .from("product")
+        .from("products")
         .select("*")
         .eq("id", Number(id))
         .single();
