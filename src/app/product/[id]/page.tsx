@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Product } from "@/types/supabase";
 import Image from "next/image";
+import BuyButton from "@/components/BuyButton";
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -38,27 +39,50 @@ export default function ProductPage() {
     return <p className="p-4 text-red-500">Produto não encontrado.</p>;
 
   return (
-    <div className="max-w-4xl mx-auto p-4 grid md:grid-cols-2 gap-6">
-      <div className="bg-white rounded-lg shadow">
-        <Image
-          src={product.image_url}
-          alt={product.name}
-          width={500}
-          height={500}
-          className="object-contain rounded-lg"
-        />
-      </div>
+    <div className="max-w-2xl mx-auto p-4">
+      <div className="bg-blue-50 shadow-md rounded-lg overflow-hidden">
+        {product.image_url ? (
+          <img
+            src={product.image_url}
+            alt={product.name}
+            className="w-full h-64 object-cover p-3 min-h-[480px]"
+          />
+        ) : (
+          <div className="w-full h-64 bg-gray-100 flex items-center justify-center text-gray-400">
+            Sem imagem
+          </div>
+        )}
 
-      <div className="space-y-4">
-        <h1 className="text-3xl font-bold">{product.name}</h1>
-        <p className="text-gray-600">{product.description}</p>
-        <p className="text-2xl font-semibold text-green-600">
-          R$ {product.price.toFixed(2)}
-        </p>
+        <div className="p-4 space-y-2">
+          <h1 className="text-2xl font-bold text-gray-800 truncate">
+            {product.name}
+          </h1>
 
-        <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg">
-          Adicionar ao carrinho
-        </button>
+          <p className="text-gray-600 text-sm line-clamp-3">
+            {product.description || "Sem descrição"}
+          </p>
+
+          <p className="text-neutral-900 font-bold text-xl">
+            R${" "}
+            {product.price.toLocaleString("pt-BR", {
+              currency: "BRL",
+              maximumFractionDigits: 2,
+            })}
+          </p>
+
+          <span className="text-gray-500 text-xs block">
+            Ou em até 12x de R${" "}
+            {(product.price / 12).toLocaleString("pt-BR", {
+              currency: "BRL",
+              maximumFractionDigits: 2,
+            })}{" "}
+            sem juros
+          </span>
+
+          <div className="pt-4">
+            <BuyButton product={product} />
+          </div>
+        </div>
       </div>
     </div>
   );
