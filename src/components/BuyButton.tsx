@@ -1,13 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@/types/supabase";
 import { Product } from "@/types/supabase";
+import { supabase } from "@/lib/supabase";
 
 export default function BuyButton({ product }: { product: Product }) {
   const router = useRouter();
-  const supabase = createClientComponentClient<Database>();
 
   const handleClick = async () => {
     const {

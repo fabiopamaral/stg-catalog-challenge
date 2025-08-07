@@ -5,11 +5,9 @@ import Link from "next/link";
 import { Session } from "@supabase/supabase-js";
 import { LogIn, LogOut, ShoppingCart, UserRoundPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@/types/supabase";
+import { supabase } from "@/lib/supabase";
 
 export default function Navbar() {
-  const supabase = createClientComponentClient<Database>();
   const [session, setSession] = useState<Session | null>(null);
   const router = useRouter();
 
