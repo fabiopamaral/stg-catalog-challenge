@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./globals.css";
 import { ReactNode } from "react";
 import Navbar from "@/components/Navbar";
+import Image from "next/image";
 
 export const metadata = {
   title: "E-commerce",
@@ -17,7 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <div className="flex flex-col min-h-screen bg-emerald-900">
           <header className="shadow-md px-6 py-4 flex justify-between items-center bg-emerald-950">
             <Link href="/" className="text-xl font-bold text-white">
-              <img src="/logo-stg.png" alt="Logo" width={50} height={50} />
+              <Image src="/logo-stg.png" alt="Logo" width={50} height={50} />
             </Link>
             <Navbar />
           </header>

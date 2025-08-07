@@ -5,6 +5,7 @@ export type Product = {
   price: number;
   image_url: string;
   category: string;
+  created_at: string;
 };
 
 export type Database = {

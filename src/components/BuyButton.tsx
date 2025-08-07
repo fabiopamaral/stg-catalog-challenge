@@ -14,7 +14,7 @@ export default function BuyButton({ product }: { product: Product }) {
       data: { session },
     } = await supabase.auth.getSession();
 
-    if (session) {
+    if (session && product.id) {
       router.push(`/product/${product.id}`);
     } else {
       router.push("/login");

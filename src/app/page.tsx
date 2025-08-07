@@ -60,6 +60,7 @@ export default function Home() {
                 <p className="text-neutral-900 font-bold text-lg">
                   R${" "}
                   {product.price.toLocaleString("pt-BR", {
+                    style: "currency",
                     currency: "BRL",
                     maximumFractionDigits: 2,
                   })}
@@ -67,6 +68,7 @@ export default function Home() {
                 <span className="text-gray-500 text-xs">
                   Ou em até 12x de R${" "}
                   {(product.price / 12).toLocaleString("pt-BR", {
+                    style: "currency",
                     currency: "BRL",
                     maximumFractionDigits: 2,
                   })}{" "}

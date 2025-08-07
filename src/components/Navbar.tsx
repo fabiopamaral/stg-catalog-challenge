@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 import { Session } from "@supabase/supabase-js";
 import { LogIn, LogOut, ShoppingCart, UserRoundPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/types/supabase";
 
 export default function Navbar() {
+  const supabase = createClientComponentClient<Database>();
   const [session, setSession] = useState<Session | null>(null);
   const router = useRouter();
 
@@ -19,20 +21,19 @@ export default function Navbar() {
 
     getSession();
 
-    const { data: listener } = supabase.auth.onAuthStateChange(
+    const { data: authListner } = supabase.auth.onAuthStateChange(
       (_event, newSession) => {
         setSession(newSession);
       }
     );
 
     return () => {
-      listener?.subscription.unsubscribe();
+      authListner?.subscription.unsubscribe();
     };
   }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    setSession(null);
     router.push("/");
   };
 
