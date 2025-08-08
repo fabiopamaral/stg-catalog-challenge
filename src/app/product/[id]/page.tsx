@@ -1,52 +1,40 @@
-// app/product/[id]/page.tsx
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { supabase } from "@/lib/supabase";
-import { Product } from "@/types/supabase";
-import Image from "next/image";
+import { cookies } from "next/headers";
+import { Database } from "@/types/supabase";
 import BuyButton from "@/components/BuyButton";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import Image from "next/image";
 
-export default function ProductPage() {
-  const { id } = useParams();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
+type ProductPageProps = {
+  params: {
+    id: string;
+  };
+};
 
-  useEffect(() => {
-    async function fetchProduct() {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("id", Number(id))
-        .single();
+export default async function ProductPage({ params }: ProductPageProps) {
+  const supabase = createServerComponentClient<Database>({ cookies });
+  const { data: product, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", Number(params.id))
+    .single();
 
-      if (!error) {
-        setProduct(data);
-      } else {
-        console.log("Erro ao buscar o produto", error.message);
-      }
-
-      setLoading(false);
-    }
-
-    if (id) fetchProduct();
-  }, [id]);
-
-  if (loading) return <p className="p-4">Carregando...</p>;
-
-  if (!product)
+  if (error || !product) {
     return <p className="p-4 text-red-500">Produto não encontrado.</p>;
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-4">
       <div className="bg-blue-50 shadow-md rounded-lg overflow-hidden">
         {product.image_url ? (
-          <img
-            src={product.image_url}
-            alt={product.name}
-            className="w-full h-64 object-cover p-3 min-h-[480px]"
-          />
+          <div className="relative w-full h-[480px] p-3">
+            <Image
+              src={product.image_url}
+              alt={product.name}
+              fill
+              className="object-cover rounded-lg"
+              sizes="(max-width: 768px) 100vw, 480px"
+            />
+          </div>
         ) : (
           <div className="w-full h-64 bg-gray-100 flex items-center justify-center text-gray-400">
             Sem imagem
