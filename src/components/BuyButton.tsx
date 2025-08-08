@@ -1,21 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Product } from "@/types/supabase";
-import { supabase } from "@/lib/supabase";
 
-export default function BuyButton({ product }: { product: Product }) {
+type BuyButtonProps = {
+  product: Product;
+};
+
+export default function BuyButton({ product }: BuyButtonProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleClick = async () => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    const isOnProductPage = pathname.startsWith("/product/");
 
-    if (session && product.id) {
-      router.push(`/product/${product.id}`);
+    if (isOnProductPage) {
+      router.push(`/cart?productId=${product.id}`);
     } else {
-      router.push("/login");
+      router.push(`/product/${product.id}`);
     }
   };
 
