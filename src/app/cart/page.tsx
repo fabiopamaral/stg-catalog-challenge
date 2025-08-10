@@ -2,37 +2,38 @@
 
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { CartItems } from "@/types/supabase";
+import { CartItem, CartItems } from "@/types/supabase";
 import {
   CircleMinus,
   CirclePlus,
   CreditCard,
   ShoppingCart,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const supabase = createClientComponentClient();
   const [items, setItems] = useState<CartItems[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  useEffect(() => {
-    async function fetchCart() {
-      setLoading(true);
+  async function fetchCart() {
+    setLoading(true);
 
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
-      if (!session) {
-        setItems([]);
-        setLoading(false);
-        return;
-      }
+    if (!session) {
+      setItems([]);
+      setLoading(false);
+      return;
+    }
 
-      const { data, error } = await supabase
-        .from("cart_items")
-        .select(
-          `
+    const { data, error } = await supabase
+      .from("cart_items")
+      .select(
+        `
           id,
           user_id,
           product_id,
@@ -40,19 +41,19 @@ export default function CartPage() {
           created_at,
           product:products (*)
         `
-        )
-        .eq("user_id", session.user.id);
+      )
+      .eq("user_id", session.user.id);
 
-      if (error) {
-        console.error("Erro ao buscar itens do carrinho:", error);
-        setItems([]);
-      } else {
-        setItems(data as CartItems[]);
-      }
-
-      setLoading(false);
+    if (error) {
+      console.error("Erro ao buscar itens do carrinho:", error);
+      setItems([]);
+    } else {
+      setItems(data as CartItems[]);
     }
 
+    setLoading(false);
+  }
+  useEffect(() => {
     fetchCart();
   }, [supabase]);
 
@@ -77,6 +78,38 @@ export default function CartPage() {
       console.error("Erro ao atualizar quantidade:", error);
       alert("Não foi possível atualizar a quantidade. Tente novamente.");
     }
+  };
+
+  const handleCancel = async () => {
+    const {
+      data: { session },
+      error: sessError,
+    } = await supabase.auth.getSession();
+
+    if (sessError || !session) {
+      console.error("Sessão não encontrada", sessError);
+      return;
+    }
+
+    const confirmation = confirm("Deseja limpar o carrinho?");
+
+    if (confirmation) {
+      const { error } = await supabase
+        .from("cart_items")
+        .delete()
+        .eq("user_id", session.user.id);
+      if (error) {
+        console.error("Erro ao limpar carrinho:", error);
+        alert("Não foi possível cancelar o pedido. Tente novamente.");
+        return;
+      }
+
+      setItems([]);
+    }
+
+    setTimeout(() => {
+      router.push("/");
+    }, 2000);
   };
 
   const total = items.reduce((acc, item) => {
@@ -165,8 +198,11 @@ export default function CartPage() {
       </div>
 
       <div className="flex justify-end space-x-2 pt-4">
-        <button className="min-w-24 px-3 bg-blue-50 hover:bg-gray-400 text-gray-800 font-medium py-2 rounded-md transition-colors duration-200 cursor-pointer">
-          <span>Cancelar</span>
+        <button
+          onClick={handleCancel}
+          className="min-w-24 px-3 bg-blue-50 hover:bg-gray-400 text-gray-800 font-medium py-2 rounded-md transition-colors duration-200 cursor-pointer"
+        >
+          <span>Esvaziar Carrinho</span>
         </button>
         <button
           onClick={() => alert("Compra confirmada!")}
