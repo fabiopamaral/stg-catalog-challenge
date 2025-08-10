@@ -105,11 +105,11 @@ export default function CartPage() {
       }
 
       setItems([]);
-    }
 
-    setTimeout(() => {
-      router.push("/");
-    }, 2000);
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    }
   };
 
   const total = items.reduce((acc, item) => {
@@ -127,7 +127,15 @@ export default function CartPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-4">
-      <h1 className="text-2xl font-bold mb-4">Resumo da compra</h1>
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold mb-4">Resumo da compra</h1>
+        <button
+          onClick={() => router.push("/")}
+          className="min-w-24 px-3 bg-blue-500 hover:bg-blue-600 text-sm text-gray- font-small py-2 rounded-md transition-colors duration-200 cursor-pointer"
+        >
+          Adicionar mais Produtos
+        </button>
+      </div>
 
       {items.map((item) => (
         <div
@@ -200,13 +208,13 @@ export default function CartPage() {
       <div className="flex justify-end space-x-2 pt-4">
         <button
           onClick={handleCancel}
-          className="min-w-24 px-3 bg-blue-50 hover:bg-gray-400 text-gray-800 font-medium py-2 rounded-md transition-colors duration-200 cursor-pointer"
+          className="min-w-24 px-3 bg-blue-50 hover:bg-gray-400 text-sm text-gray-800 font-medium py-2 rounded-md transition-colors duration-200 cursor-pointer"
         >
           <span>Esvaziar Carrinho</span>
         </button>
         <button
           onClick={() => alert("Compra confirmada!")}
-          className="min-w-24 px-3 bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-md transition-colors duration-200 cursor-pointer"
+          className="min-w-24 px-3 bg-green-600 hover:bg-green-700 text-sm text-white font-medium py-2 rounded-md transition-colors duration-200 cursor-pointer"
         >
           <span className="flex justify-center gap-1 items-center">
             Comprar <ShoppingCart width={20} height={20} />

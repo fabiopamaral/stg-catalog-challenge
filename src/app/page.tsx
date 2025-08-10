@@ -33,8 +33,8 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto py-8 px-4 text-center text-gray-600">
-        Carregando produtos...
+      <div className="max-w-7xl mx-auto py-8 px-4 text-center text-gray-200">
+        Carregando Católogo...
       </div>
     );
   }
