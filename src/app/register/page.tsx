@@ -9,6 +9,7 @@ import { Toast } from "primereact/toast";
 export default function RegisterPage() {
   const router = useRouter();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -32,7 +33,12 @@ export default function RegisterPage() {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      phone,
+      options: {
+        data: {
+          name,
+          phone,
+        },
+      },
     });
 
     if (error) {
@@ -70,6 +76,14 @@ export default function RegisterPage() {
 
           <form onSubmit={handleRegister} className="space-y-4">
             <input
+              type="text"
+              placeholder="Seu primeiro nome"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full mt-1 px-4 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-300"
+              required
+            />
+            <input
               type="email"
               placeholder="Seu e-mail"
               value={email}
@@ -78,6 +92,7 @@ export default function RegisterPage() {
               required
             />
             <input
+              type="text"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               className="w-full mt-1 px-4 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-300"
