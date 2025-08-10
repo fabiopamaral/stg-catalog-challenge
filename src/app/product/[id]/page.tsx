@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import { Database } from "@/types/supabase";
 import BuyButton from "@/components/BuyButton";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
@@ -11,7 +10,7 @@ type ProductPageProps = {
 };
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = createServerComponentClient({ cookies });
   const { data: product, error } = await supabase
     .from("products")
     .select("*")

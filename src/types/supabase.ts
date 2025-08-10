@@ -8,12 +8,14 @@ export type Product = {
   created_at: string;
 };
 
-export type Database = {
-  public: {
-    Tables: {
-      products: {
-        Row: Product;
-      };
-    };
-  };
+export type CartItem = {
+  id: string;
+  user_id: string;
+  product_id: number;
+  quantity: number;
+  created_at: string;
+};
+
+export type CartItems = CartItem & {
+  product: Product;
 };
