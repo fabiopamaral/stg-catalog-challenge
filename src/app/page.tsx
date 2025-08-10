@@ -18,10 +18,13 @@ export default function Home() {
   async function fetchProducts() {
     setLoading(true);
 
-    const { data, error } = await supabase
+    const { data, error } = (await supabase
       .from("products")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })) as {
+      data: Product[] | null;
+      error: any;
+    };
 
     if (error) {
       console.error("Erro ao buscar produtos:", error.message);
