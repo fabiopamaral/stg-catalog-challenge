@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import BuyButton from "@/components/BuyButton";
 import { Product } from "@/types/supabase";
+import Link from "next/link";
+import { Info } from "lucide-react";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -41,7 +43,7 @@ export default function Home() {
 
   if (products.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto py-8 px-4 text-center text-gray-500">
+      <div className="max-w-7xl mx-auto py-8 px-4 text-center text-gray-200">
         Nenhum produto disponível.
       </div>
     );
@@ -71,9 +73,7 @@ export default function Home() {
               <h2 className="text-lg font-semibold text-gray-800 truncate">
                 {product.name}
               </h2>
-              <p className="text-sm text-gray-500 line-clamp-2">
-                {product.description || "Sem descrição"}
-              </p>
+
               <p className="text-neutral-900 font-bold text-lg">
                 {product.price.toLocaleString("pt-BR", {
                   style: "currency",
@@ -90,6 +90,18 @@ export default function Home() {
                 })}{" "}
                 sem juros
               </span>
+              <Link href={`./product/${product.id}`}>
+                <div className=" mt-2 flex items-center gap-3">
+                  <p className=" text-xs text-emerald-700 cursor-pointer underline hover:text-emerald-800">
+                    Mais informações
+                  </p>
+                  <Info
+                    className="bg-white text-green-700 rounded-full border-0"
+                    width={16}
+                    height={16}
+                  />
+                </div>
+              </Link>
             </div>
             <div className="pt-2">
               <BuyButton product={product} />
