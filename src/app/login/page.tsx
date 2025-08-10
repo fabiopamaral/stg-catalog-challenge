@@ -93,7 +93,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoggingIn}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 cursor-pointer"
               >
                 {isLoggingIn ? "Entrando..." : "Entrar"}
               </button>
@@ -101,7 +101,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={handleGoToRegister}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200 cursor-pointer"
               >
                 Criar Conta
               </button>

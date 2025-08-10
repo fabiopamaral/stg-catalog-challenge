@@ -117,6 +117,61 @@ export default function CartPage() {
     return acc + price * item.quantity;
   }, 0);
 
+  const formartPhone = (phone: string) => {
+    let cleaned = phone.replace(/\D/g, "");
+
+    if (cleaned.startsWith("55")) {
+      return `+${cleaned}`;
+    }
+
+    return `+55${cleaned}`;
+  };
+
+  const handleCheckout = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      alert("Você precisa estar logado para finalizar a compra.");
+      return;
+    }
+
+    const phone = user.user_metadata?.phone;
+    if (!phone) {
+      alert("Não encontramos um telefone cadastrado no seu perfil.");
+      return;
+    }
+
+    // Monta o resumo do pedido
+    const resumo = items
+      .map(
+        (item) =>
+          `• ${item.product.name} - ${item.quantity}x - R$ ${(
+            item.product.price * item.quantity
+          ).toFixed(2)}`
+      )
+      .join("\n");
+
+    const total = items.reduce(
+      (acc, item) => acc + item.product.price * item.quantity,
+      0
+    );
+
+    const mensagem = `Olá! Quero finalizar meu pedido:\n\n${resumo}\n\nTotal: R$ ${total.toFixed(
+      2
+    )}`;
+
+    const phoneWithCountryCode = formartPhone(phone);
+
+    // Monta link do WhatsApp
+    const whatsappURL = `https://wa.me/${phoneWithCountryCode}?text=${encodeURIComponent(
+      mensagem
+    )}`;
+
+    // Abre no WhatsApp
+    window.open(whatsappURL, "_blank");
+  };
+
   if (loading) {
     return <p className="p-4">Carregando carrinho...</p>;
   }
@@ -213,7 +268,7 @@ export default function CartPage() {
           <span>Esvaziar Carrinho</span>
         </button>
         <button
-          onClick={() => alert("Compra confirmada!")}
+          onClick={handleCheckout}
           className="min-w-24 px-3 bg-green-600 hover:bg-green-700 text-sm text-white font-medium py-2 rounded-md transition-colors duration-200 cursor-pointer"
         >
           <span className="flex justify-center gap-1 items-center">
