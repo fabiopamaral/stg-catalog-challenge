@@ -49,7 +49,7 @@ export default function Navbar() {
         {session ? (
           <>
             <span className="text-sm text-white">
-              Bem-vindo, {session.user.email}
+              Bem-vindo, {session.user.user_metadata.name}
             </span>
 
             <button
