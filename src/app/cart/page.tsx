@@ -135,18 +135,19 @@ export default function CartPage() {
       alert("Você precisa estar logado para finalizar a compra.");
       return;
     }
-
+    const name = user.user_metadata.name || "Não informado";
+    const email = user.email || "Não informado";
     const phone = user.user_metadata?.phone;
+
     if (!phone) {
       alert("Não encontramos um telefone cadastrado no seu perfil.");
       return;
     }
 
-    // Monta o resumo do pedido
     const resumo = items
       .map(
         (item) =>
-          `• ${item.product.name} - ${item.quantity}x - R$ ${(
+          `• ${item.product.name} - Qtd: ${item.quantity} - R$ ${(
             item.product.price * item.quantity
           ).toFixed(2)}`
       )
@@ -157,18 +158,19 @@ export default function CartPage() {
       0
     );
 
-    const mensagem = `Olá! Quero finalizar meu pedido:\n\n${resumo}\n\nTotal: R$ ${total.toFixed(
-      2
-    )}`;
-
+    const mensagem = `*NOVO PEDIDO - STG CATALOG*\n
+_Cliente:_ ${name}
+_Email:_ ${email}
+*PRODUTOS:*
+${resumo}\n
+-------------//-------------//-------------
+*TOTAL: R$ ${total.toFixed(2)}*`;
     const phoneWithCountryCode = formartPhone(phone);
 
-    // Monta link do WhatsApp
     const whatsappURL = `https://wa.me/${phoneWithCountryCode}?text=${encodeURIComponent(
       mensagem
     )}`;
 
-    // Abre no WhatsApp
     window.open(whatsappURL, "_blank");
   };
 
