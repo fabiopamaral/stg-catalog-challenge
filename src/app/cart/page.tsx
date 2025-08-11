@@ -172,6 +172,22 @@ ${resumo}\n
     )}`;
 
     window.open(whatsappURL, "_blank");
+
+    const { error: deleteError } = await supabase
+      .from("cart_items")
+      .delete()
+      .eq("user_id", user.id);
+
+    if (deleteError) {
+      alert("Erro ao limpar carrinho.");
+      return;
+    }
+
+    setItems([]);
+
+    setTimeout(() => {
+      router.push("/");
+    }, 1500);
   };
 
   if (loading) {
