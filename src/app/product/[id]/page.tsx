@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import BuyButton from "@/components/BuyButton";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
+import { Product } from "@/types/supabase";
 
 type ProductPageProps = {
   params: {
@@ -15,7 +16,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .from("products")
     .select("*")
     .eq("id", Number(params.id))
-    .single();
+    .single<Product>();
 
   if (error || !product) {
     return <p className="p-4 text-red-500">Produto não encontrado.</p>;

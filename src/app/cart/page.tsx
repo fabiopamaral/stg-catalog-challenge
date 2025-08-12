@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { CartItem, CartItems } from "@/types/supabase";
+import { CartItems } from "@/types/supabase";
 import {
   CircleMinus,
   CirclePlus,
@@ -10,6 +10,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function CartPage() {
   const supabase = createClientComponentClient();
@@ -118,7 +119,7 @@ export default function CartPage() {
   }, 0);
 
   const formartPhone = (phone: string) => {
-    let cleaned = phone.replace(/\D/g, "");
+    const cleaned = phone.replace(/\D/g, "");
 
     if (cleaned.startsWith("55")) {
       return `+${cleaned}`;
@@ -215,10 +216,12 @@ ${resumo}\n
           key={item.id}
           className="flex items-center gap-4 bg-blue-50 rounded-md shadow p-4"
         >
-          <img
+          <Image
             src={item.product.image_url || ""}
             alt={item.product.name}
             className="w-32 h-32 object-cover rounded"
+            width={687}
+            height={1031}
           />
           <div className="flex-1">
             <h2 className="text-gray-800 text-lg font-semibold">

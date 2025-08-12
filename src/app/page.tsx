@@ -6,6 +6,7 @@ import BuyButton from "@/components/BuyButton";
 import { Product } from "@/types/supabase";
 import Link from "next/link";
 import { Info } from "lucide-react";
+import Image from "next/image";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -77,10 +78,12 @@ export default function Home() {
               className="bg-blue-50 shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-transform duration-200 transform hover:scale-[1.02]"
             >
               {product.image_url ? (
-                <img
+                <Image
                   src={product.image_url}
                   alt={product.name}
                   className="w-full h-48 object-cover p-3"
+                  width={687}
+                  height={1031}
                 />
               ) : (
                 <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">
